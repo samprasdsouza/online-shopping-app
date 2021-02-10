@@ -4,6 +4,8 @@ import com.example.demo.helper.FileUploadHelper;
 import com.example.demo.model.Person;
 import com.example.demo.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +14,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import javax.validation.Valid;
@@ -51,6 +56,7 @@ public class PersonController {
     }
 
     @Autowired
+
     private FileUploadHelper fileUploadHelper;
     @PostMapping(path = "/upload-file")
     public ResponseEntity<String> uploadFile(@RequestParam("file")MultipartFile file){
@@ -64,7 +70,7 @@ public class PersonController {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Request Must Contain File");
             }
             if (!file.getContentType().equals("image/jpeg")) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Request Must Contain JPEG File");
+                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Request Must Contain JPEG File");
             }
 
             // file upload code  // upload_dir
@@ -79,5 +85,25 @@ public class PersonController {
             e.printStackTrace();
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Not Uploaded");
+    }
+
+    @GetMapping(path = "/stream")
+    public ResponseEntity<InputStreamResource> retrieveResource() throws Exception {
+        File file = new File("/Users/Sam/Desktop/demo/src/main/resources/static/image/sample.mp4");
+
+        InputStream inputStream = new FileInputStream("/Users/Sam/Desktop/demo/src/main/resources/static/image/sample.mp4");
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Accept-Ranges","bytes");
+        headers.set("Content-Type","video/mp4");
+        headers.set("Content-Range","bytes 50-1025/17839845");
+        headers.set("Content-Length",String.valueOf(file.length()));
+        return new ResponseEntity<>(new InputStreamResource(inputStream),headers,HttpStatus.OK);
+    }
+
+    @RequestMapping("/topics")
+    public  List<Topic> getAllTopics(){
+        return Arrays.asList(
+                new Topic("sf","spring boot","Spring framework")
+        );
     }
 }
