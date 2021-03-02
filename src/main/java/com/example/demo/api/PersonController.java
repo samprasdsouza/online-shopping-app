@@ -107,4 +107,10 @@ public class PersonController {
                 new Topic("sf","spring boot","Spring framework")
         );
     }
+
+    @GetMapping("/getMsg")
+    public String greeting()
+    {
+        return "spring security example";
+    }
 }
