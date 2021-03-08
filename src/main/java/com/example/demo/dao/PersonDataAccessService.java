@@ -5,12 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 @Repository("postgres")
 public class PersonDataAccessService implements PersonDao {
 
+    private  static List<Person> DB= new ArrayList<>();
     private final JdbcTemplate jdbcTemplate;
     @Autowired
     public PersonDataAccessService(JdbcTemplate jdbcTemplate) {
@@ -20,7 +22,10 @@ public class PersonDataAccessService implements PersonDao {
 
     @Override
     public int insertPerson(UUID id, Person person) {
-        return 0;
+        System.out.println("Added new person");
+//        System.out.println(id);
+//                person.getName());
+        return jdbcTemplate.update("INSERT INTO person(id,name) VALUES(?,?)", id, person.getName());
     }
 
     @Override

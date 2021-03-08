@@ -33,8 +33,9 @@ public class PersonController {
     public PersonController(PersonService personService) {
         this.personService = personService;
     }
-    @PostMapping(path="/inst")
+    @PostMapping
     public  void addPerson (@Valid @NotNull @RequestBody  Person person){
+        System.out.println("Adding People");
          personService.addPerson(person);
     }
 
