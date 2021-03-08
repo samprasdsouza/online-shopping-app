@@ -1,6 +1,12 @@
 app:
   datasource:
-    jdbc-url: jdbc:postgresql://localhost:5432/demodb
-    username: postgres
-    password: password
-    pool-size: 30
+    jdbc-url: jdbc:sqlserver://online-shopping-app-sql-server.database.windows.net:1433;database=online-shopping-app-db-dev;user=onlineshoppingapp@online-shopping-app-sql-server;password=Internship101;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+    #    jdbc:postgresql://localhost:5432/demodb
+#    username: onlineshoppingapp@online-shopping-app-sql-server
+#    postgres
+#    password: Internship101
+#    password
+#    pool-size: 30
+#  url=jdbc:sqlserver://$AZ_DATABASE_NAME.database.windows.net:1433;database=demo;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+#  user=demo@$AZ_DATABASE_NAME
+#  password=$AZ_SQL_SERVER_PASSWORD

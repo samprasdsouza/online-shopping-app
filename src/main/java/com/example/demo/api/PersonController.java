@@ -33,7 +33,7 @@ public class PersonController {
     public PersonController(PersonService personService) {
         this.personService = personService;
     }
-    @PostMapping
+    @PostMapping(path="/inst")
     public  void addPerson (@Valid @NotNull @RequestBody  Person person){
          personService.addPerson(person);
     }
@@ -90,9 +90,9 @@ public class PersonController {
 
     @GetMapping(path = "/stream")
     public ResponseEntity<InputStreamResource> retrieveResource() throws Exception {
-        File file = new File("/Users/Sam/Desktop/demo/src/main/resources/static/image/sample.mp4");
+        File file = new File("/Users/Sam/Desktop/demo/src/main/resources/templates/sample.mp4");
 
-        InputStream inputStream = new FileInputStream("/Users/Sam/Desktop/demo/src/main/resources/static/image/sample.mp4");
+        InputStream inputStream = new FileInputStream("/Users/Sam/Desktop/demo/src/main/resources/templates/sample.mp4");
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept-Ranges","bytes");
         headers.set("Content-Type","video/mp4");
@@ -108,9 +108,4 @@ public class PersonController {
         );
     }
 
-    @GetMapping("/getMsg")
-    public String greeting()
-    {
-        return "spring security example";
-    }
 }

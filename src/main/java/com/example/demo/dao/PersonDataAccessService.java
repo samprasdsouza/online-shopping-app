@@ -25,6 +25,7 @@ public class PersonDataAccessService implements PersonDao {
 
     @Override
     public List<Person> selectAllPeople() {
+        System.out.println("Selecting People");
         final String sql  = "Select id,name from person";
         List<Person> people = jdbcTemplate.query(sql,(resultSet,i)->{
            UUID id =  UUID.fromString(resultSet.getString("id"));
