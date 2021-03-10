@@ -1,5 +1,6 @@
 package com.example.demo.api;
 
+import com.example.demo.helper.ApiValidation;
 import com.example.demo.helper.FileUploadHelper;
 import com.example.demo.model.Person;
 import com.example.demo.service.PersonService;
@@ -27,15 +28,23 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("api/v1/person")
 @RestController
 public class PersonController {
+    @Autowired
     private final PersonService personService;
 
     @Autowired
+    private  ApiValidation apiValidation;
+
+
     public PersonController(PersonService personService) {
+
         this.personService = personService;
     }
     @PostMapping
     public  void addPerson (@Valid @NotNull @RequestBody  Person person){
         System.out.println("Adding People");
+          //security check class
+//         apiValidation.personValidator(person);
+         //
          personService.addPerson(person);
     }
 
