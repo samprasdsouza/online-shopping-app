@@ -1,5 +1,6 @@
 package com.example.demo.dao;
 
+import com.example.demo.helper.ApiValidation;
 import com.example.demo.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,6 +14,8 @@ import java.util.UUID;
 public class PersonDataAccessService implements PersonDao {
 
     private  static List<Person> DB= new ArrayList<>();
+    @Autowired
+    private ApiValidation apiValidation;
     private final JdbcTemplate jdbcTemplate;
     @Autowired
     public PersonDataAccessService(JdbcTemplate jdbcTemplate) {
@@ -21,11 +24,19 @@ public class PersonDataAccessService implements PersonDao {
 
 
     @Override
-    public int insertPerson(UUID id, Person person) {
+    public String insertPerson(UUID id, Person person) {
         System.out.println("Added new person");
 //        System.out.println(id);
 //                person.getName());
-        return jdbcTemplate.update("INSERT INTO person(id,name) VALUES(?,?)", id, person.getName());
+//
+        String name =person.getName();
+        int val  = jdbcTemplate.queryForObject("select count(*) from person where name=? ",new Object[] { name },Integer.class);
+        System.out.println(val);
+        if(val == 1)
+            return apiValidation.NameFull();
+        else jdbcTemplate.update("INSERT INTO person(id,name) VALUES(?,?)", id, person.getName());
+        return apiValidation.Success();
+                //jdbcTemplate.update("INSERT INTO person(id,name) VALUES(?,?)", id, person.getName());
     }
 
     @Override

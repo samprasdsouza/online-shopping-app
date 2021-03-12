@@ -20,7 +20,7 @@ public class    PersonService {
         this.personDao = personDao;
     }
 
-    public int addPerson(Person person){
+    public String addPerson(Person person){
         return personDao.insertPerson(person);
     }
 
