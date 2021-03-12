@@ -12,4 +12,13 @@ public class ApiValidation {
                 return true;
             return false;
         }
+
+        public String NameFull()
+        {
+            return"{'Type ':' The Db has max limit'}";
+        }
+    public String Success()
+    {
+        return"{'Type ':' Data Inserted'}";
+    }
 }

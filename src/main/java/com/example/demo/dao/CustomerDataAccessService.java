@@ -45,3 +45,11 @@ public class CustomerDataAccessService implements CustomerDao{
         return 0;
     }
 }
+//{
+//        "customer_name":"sam",
+//        "customer_email":"samprasdsouza02@gmail.com",
+//        "customer_contact":"9819955913",
+//        "customer_address":"mumbai",
+//        "customer_password":"Lazarus",
+//        "customer_username":"dsouza_sam"
+//        }
