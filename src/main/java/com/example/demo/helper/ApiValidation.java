@@ -1,6 +1,6 @@
 package com.example.demo.helper;
 
-import com.example.demo.model.Person;
+import com.example.demo.model.Person.Person;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,12 +13,12 @@ public class ApiValidation {
             return false;
         }
 
-        public String NameFull()
+        public String NewUserNameFull()
         {
-            return"{'Type ':' The Db has max limit'}";
+            return"{'Type ':' User Name Already Exist'}";
         }
-    public String Success()
+    public String NewUserSuccess()
     {
-        return"{'Type ':' Data Inserted'}";
+        return"{'Type':'User Created Successfully'}";
     }
 }

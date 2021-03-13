@@ -1,7 +1,7 @@
-package com.example.demo.dao;
+package com.example.demo.dao.Person;
 
 import com.example.demo.helper.ApiValidation;
-import com.example.demo.model.Person;
+import com.example.demo.model.Person.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -33,10 +33,10 @@ public class PersonDataAccessService implements PersonDao {
         int val  = jdbcTemplate.queryForObject("select count(*) from person where name=? ",new Object[] { name },Integer.class);
         System.out.println(val);
         if(val == 1)
-            return apiValidation.NameFull();
-        else jdbcTemplate.update("INSERT INTO person(id,name) VALUES(?,?)", id, person.getName());
-        return apiValidation.Success();
-                //jdbcTemplate.update("INSERT INTO person(id,name) VALUES(?,?)", id, person.getName());
+            return apiValidation.NewUserNameFull();
+        else
+            jdbcTemplate.update("INSERT INTO person(id,name) VALUES(?,?)", id, person.getName());
+        return apiValidation.NewUserSuccess();
     }
 
     @Override

@@ -1,23 +1,20 @@
-package com.example.demo.api;
+package com.example.demo.api.Person;
 
+import com.example.demo.api.Topic;
 import com.example.demo.helper.ApiValidation;
 import com.example.demo.helper.FileUploadHelper;
-import com.example.demo.model.Person;
-import com.example.demo.service.PersonService;
-import jdk.jfr.DataAmount;
+import com.example.demo.model.Person.Person;
+import com.example.demo.service.Person.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;

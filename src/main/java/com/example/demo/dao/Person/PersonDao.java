@@ -1,6 +1,6 @@
-package com.example.demo.dao;
+package com.example.demo.dao.Person;
 
-import com.example.demo.model.Person;
+import com.example.demo.model.Person.Person;
 
 import java.util.Optional;
 import java.util.UUID;
