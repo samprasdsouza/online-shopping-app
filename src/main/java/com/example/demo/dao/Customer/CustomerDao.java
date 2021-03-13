@@ -1,8 +1,9 @@
-package com.example.demo.dao;
+package com.example.demo.dao.Customer;
 
-import com.example.demo.model.CustomerDetails;
+import com.example.demo.model.Customer.CustomerDetails;
+import com.example.demo.model.Customer.CustomerValidation;
+
 import java.util.List;
-import java.util.Optional;
 
 
 public interface CustomerDao {
@@ -16,5 +17,6 @@ public interface CustomerDao {
 
     int updateCustomerByUsername(CustomerDetails customerDetails);
 
+    String ValidateCustomer(CustomerValidation customerValidation);
 
 }

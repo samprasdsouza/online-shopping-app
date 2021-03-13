@@ -1,7 +1,8 @@
-package com.example.demo.service;
+package com.example.demo.service.Customer;
 
-import com.example.demo.dao.CustomerDao;
-import com.example.demo.model.CustomerDetails;
+import com.example.demo.dao.Customer.CustomerDao;
+import com.example.demo.model.Customer.CustomerDetails;
+import com.example.demo.model.Customer.CustomerValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -18,5 +19,10 @@ public class CustomerService {
 
     public int addCustomer(CustomerDetails customerDetails ){
         return customerDao.insertCustomer(customerDetails);
+    }
+
+    public  String ValidateCustomer(CustomerValidation customerValidation)
+    {
+        return customerDao.ValidateCustomer(customerValidation);
     }
 }

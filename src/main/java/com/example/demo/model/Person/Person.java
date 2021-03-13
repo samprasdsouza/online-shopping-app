@@ -1,4 +1,4 @@
-package com.example.demo.model;
+package com.example.demo.model.Person;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.lang.NonNull;

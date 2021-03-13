@@ -1,7 +1,8 @@
-package com.example.demo.api;
+package com.example.demo.api.Customer;
 
-import com.example.demo.model.CustomerDetails;
-import com.example.demo.service.CustomerService;
+import com.example.demo.model.Customer.CustomerDetails;
+import com.example.demo.model.Customer.CustomerValidation;
+import com.example.demo.service.Customer.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,13 +21,20 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @PostMapping(path="/newCustomer")
+    @PostMapping(path="/registerNewCustomer")
     public  void addCustomer (@Valid @NotNull @RequestBody CustomerDetails customerDetails){
         System.out.println("Adding People");
         //security check class
-//         apiValidation.personValidator(person);
+//        apiValidation.personValidator(person);
         //
         customerService.addCustomer(customerDetails);
+    }
+
+    @PostMapping(path = "/ValidateUser")
+    public  void ValidateCustomer(@Valid @NotNull @RequestBody CustomerValidation customerValidation )
+    {
+        System.out.println("Validating User");
+        customerService.ValidateCustomer(customerValidation);
     }
 
     @GetMapping("/getMsg")
