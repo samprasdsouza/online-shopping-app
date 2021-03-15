@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import javax.validation.Path;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
@@ -49,10 +50,10 @@ public class PersonController {
     public List<Person>getALlPeople(){
         return personService.getAllPeople();
     }
+
     @GetMapping(path ="{id}")
     public Person getPersonById(@PathVariable("id") UUID id) {
-        return personService.getPersonById(id)
-                .orElse(null);
+        return personService.getPersonById(id);
     }
     @DeleteMapping(path ="{id}")
     public void deletePersonById(@PathVariable("id") UUID id){
@@ -64,7 +65,6 @@ public class PersonController {
     }
 
     @Autowired
-
     private FileUploadHelper fileUploadHelper;
     @PostMapping(path = "/upload-file")
     public ResponseEntity<String> uploadFile(@RequestParam("file")MultipartFile file){
@@ -114,5 +114,6 @@ public class PersonController {
                 new Topic("sf","spring boot","Spring framework")
         );
     }
+
 
 }

@@ -43,9 +43,18 @@ public class CustomerDataAccessService implements CustomerDao {
     }
 
     @Override
-    public int updateCustomerByUsername(CustomerDetails customerDetails) {
-        return 0;
+    public String updateCustomerByUsername(String customer_username,CustomerDetails customerDetails) {
+        System.out.println("Updating Customer Data");
+
+
+        System.out.println(customerDetails.getCustomer_email());
+        System.out.println(customerDetails.getCustomer_email());
+        //Update Customer
+
+        return null;
     }
+
+
 
     @Override
     public String ValidateCustomer(CustomerValidation customerValidation) {
@@ -56,6 +65,13 @@ public class CustomerDataAccessService implements CustomerDao {
          //Query To Validate The UserName and Password
         return null;
     }
+
+    @Override
+    public String GetCustomerDetails(String customer_username){
+        System.out.println(customer_username);
+        return null;
+    }
+
 }
 //{
 //        "customer_name":"sam",
