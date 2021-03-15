@@ -7,14 +7,17 @@ import javax.validation.constraints.NotBlank;
 import java.util.UUID;
 
 public class Person {
-    private final UUID id;
+    private  UUID id;
 
     @NotBlank
-    private  final String name;
+    private String name;
     public Person(@JsonProperty("id") UUID id,
                   @JsonProperty("name") String name) {
         this.id = id;
         this.name = name;
+    }
+    public Person(){
+
     }
 
     public UUID getId() {
@@ -23,5 +26,14 @@ public class Person {
 
     public String getName() {
         return name;
+    }
+
+
+    public void setName(String name) {
+        this.name =name;
+    }
+
+    public void setid(long id) {
+        //this.id = (UUID)id;
     }
 }

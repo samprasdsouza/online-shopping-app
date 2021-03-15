@@ -15,8 +15,9 @@ public interface CustomerDao {
 
     int deleteCustomerByUsername(CustomerDetails customerDetails);
 
-    int updateCustomerByUsername(CustomerDetails customerDetails);
+    String updateCustomerByUsername(String customer_username,CustomerDetails customerDetails);
 
     String ValidateCustomer(CustomerValidation customerValidation);
 
+    String GetCustomerDetails(String customer_username);
 }

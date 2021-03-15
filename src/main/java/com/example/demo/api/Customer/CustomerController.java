@@ -2,12 +2,14 @@ package com.example.demo.api.Customer;
 
 import com.example.demo.model.Customer.CustomerDetails;
 import com.example.demo.model.Customer.CustomerValidation;
+import com.example.demo.model.Person.Person;
 import com.example.demo.service.Customer.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 
 @RequestMapping("api/v1/")
@@ -36,6 +38,19 @@ public class CustomerController {
         System.out.println("Validating User");
         customerService.ValidateCustomer(customerValidation);
     }
+//
+    @PutMapping(path ="{customer_username}" )
+    public void updateCustomer(@PathVariable("customer_username") String customer_username, @Valid @NotNull @RequestBody CustomerDetails CustomerToUpdate){
+      //
+        customerService.updateCustomer(customer_username,CustomerToUpdate);
+    }
+//
+    @GetMapping(path="{customer_username}")
+    public void GetCustomerDetails(@PathVariable("customer_username")String customer_username)
+    {
+        customerService.getCustomerDetails(customer_username);
+    }
+
 
     @GetMapping("/getMsg")
     public String greeting()

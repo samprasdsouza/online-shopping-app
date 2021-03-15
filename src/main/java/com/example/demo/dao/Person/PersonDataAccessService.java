@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 @Repository("postgres")
 public class PersonDataAccessService implements PersonDao {
 
@@ -52,8 +54,16 @@ public class PersonDataAccessService implements PersonDao {
     }
 
     @Override
-    public Optional<Person> selectPersonById(UUID id) {
-        return Optional.empty();
+    public Person selectPersonById(UUID id) {
+        System.out.println("Executing Query");
+    List<Person> persons = jdbcTemplate.query("select * from Person where id =?",
+                new Object[]{id}, (resultSet, i) -> {
+                    return toPerson(resultSet);
+                });
+//    System.out.println("returning NULL");
+    if (persons.size() == 1) return persons.get(0);
+        System.out.println("returning NULL");
+        return null;
     }
 
     @Override
@@ -63,6 +73,22 @@ public class PersonDataAccessService implements PersonDao {
 
     @Override
     public int updatePersonById(UUID id, Person person) {
+
+        System.out.println(id);
+
+        System.out.println(person.getName());
+        jdbcTemplate.update("UPDATE person SET name=? Where id=?",person.getName(),id);
+        // update Query
+        System.out.println("Update Done");
         return 0;
+    }
+
+    private Person toPerson(ResultSet resultSet) throws SQLException {
+        Person person = new Person();
+        System.out.println("new object");
+//        person.setid(resultSet.("id"));
+        person.setName(resultSet.getString("name"));
+        System.out.println(person.getName());
+        return person;
     }
 }
