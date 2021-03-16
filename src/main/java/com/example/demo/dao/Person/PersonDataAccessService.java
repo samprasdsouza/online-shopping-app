@@ -86,7 +86,7 @@ public class PersonDataAccessService implements PersonDao {
     private Person toPerson(ResultSet resultSet) throws SQLException {
         Person person = new Person();
         System.out.println("new object");
-//        person.setid(resultSet.("id"));
+//        person.setid(resultSet.getLong("id"));
         person.setName(resultSet.getString("name"));
         System.out.println(person.getName());
         return person;

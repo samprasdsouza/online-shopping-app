@@ -12,13 +12,12 @@ public class ApiValidation {
                 return true;
             return false;
         }
-
         public String NewUserNameFull()
         {
             return"{'Type ':' User Name Already Exist'}";
         }
-    public String NewUserSuccess()
-    {
-        return"{'Type':'User Created Successfully'}";
-    }
+        public String NewUserSuccess()
+         {
+             return "{'Type':'User Created Successfully'}";
+         }
 }

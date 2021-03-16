@@ -38,12 +38,12 @@ public class PersonController {
         this.personService = personService;
     }
     @PostMapping
-    public  void addPerson (@Valid @NotNull @RequestBody  Person person){
+    public  String addPerson (@Valid @NotNull @RequestBody  Person person){
         System.out.println("Adding People");
           //security check class
 //         apiValidation.personValidator(person);
          //
-         personService.addPerson(person);
+     return  personService.addPerson(person);
     }
 
     @GetMapping
