@@ -16,7 +16,7 @@ public class CustomerService {
     private final CustomerDao customerDao;
 
     @Autowired
-    public CustomerService(@Qualifier("CustomerModelpostgres") CustomerDao customerDao){
+    public CustomerService(@Qualifier("CustomerModelPostgres") CustomerDao customerDao){
         this.customerDao = customerDao;
     }
 

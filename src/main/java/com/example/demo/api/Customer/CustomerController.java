@@ -23,38 +23,37 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
+
+    //Registering A new Customer
     @PostMapping(path="/registerNewCustomer")
     public  void addCustomer (@Valid @NotNull @RequestBody CustomerDetails customerDetails){
         System.out.println("Adding People");
         //security check class
 //        apiValidation.personValidator(person);
-        //
         customerService.addCustomer(customerDetails);
     }
 
+    // Validating A Existing Customer
     @PostMapping(path = "/ValidateUser")
     public  void ValidateCustomer(@Valid @NotNull @RequestBody CustomerValidation customerValidation )
     {
         System.out.println("Validating User");
         customerService.ValidateCustomer(customerValidation);
     }
-//
+
+
+    // Updating Customer Details
     @PutMapping(path ="{customer_username}" )
-    public void updateCustomer(@PathVariable("customer_username") String customer_username, @Valid @NotNull @RequestBody CustomerDetails CustomerToUpdate){
-      //
-        customerService.updateCustomer(customer_username,CustomerToUpdate);
+    public void updateCustomer(@PathVariable("customer_username") String customer_username, @Valid @NotNull @RequestBody CustomerDetails customerDetails){
+        customerService.updateCustomer(customer_username,customerDetails);
     }
-//
+
+
+    //Getting Customer Details by Username
     @GetMapping(path="{customer_username}")
     public void GetCustomerDetails(@PathVariable("customer_username")String customer_username)
     {
         customerService.getCustomerDetails(customer_username);
     }
 
-
-    @GetMapping("/getMsg")
-    public String greeting()
-    {
-        return "spring security example";
-    }
 }
