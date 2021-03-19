@@ -1,6 +1,7 @@
 package com.example.demo.dao.Customer;
 
 import com.example.demo.dao.Customer.CustomerDao;
+import com.example.demo.helper.ApiValidation;
 import com.example.demo.model.Customer.CustomerDetails;
 import com.example.demo.model.Customer.CustomerValidation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,8 @@ import java.util.List;
 @Repository("CustomerModelPostgres")
 public class CustomerDataAccessService implements CustomerDao {
 
-
+    @Autowired
+    private ApiValidation apiValidation;
     private final JdbcTemplate jdbcTemplate;
     @Autowired
     public CustomerDataAccessService(JdbcTemplate jdbcTemplate){
@@ -20,7 +22,7 @@ public class CustomerDataAccessService implements CustomerDao {
 
 
     @Override
-    public int insertCustomer(CustomerDetails customerDetails) {
+    public String insertCustomer(CustomerDetails customerDetails) {
         System.out.println("Adding New Customer");
         System.out.println(customerDetails.getCustomer_name());
         System.out.println(customerDetails.getCustomer_email());
@@ -28,8 +30,18 @@ public class CustomerDataAccessService implements CustomerDao {
         System.out.println(customerDetails.getCustomer_address());
         System.out.println(customerDetails.getCustomer_password());
         System.out.println(customerDetails.getCustomer_username());
+//
+        String name =customerDetails.getCustomer_username();
+        int val  = jdbcTemplate.queryForObject("select count(*) from customer where customer_username=? ",new Object[] { name },Integer.class);
+        System.out.println(val);
+        if(val == 1)
+            return apiValidation.NewUserNameFull();
+        else
+            jdbcTemplate.update("INSERT INTO customer(customer_name,customer_email,customer_contact,customer_address,customer_password,customer_username) VALUES(?,?,?,?,?,?)",
+                    customerDetails.getCustomer_name(),customerDetails.getCustomer_email(),customerDetails.getCustomer_contact(),
+                    customerDetails.getCustomer_address(),customerDetails.getCustomer_password(),customerDetails.getCustomer_username());
+        return apiValidation.NewUserSuccess();
 
-        return 0;
     }
 
     @Override

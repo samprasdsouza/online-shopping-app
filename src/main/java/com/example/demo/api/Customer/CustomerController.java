@@ -26,11 +26,11 @@ public class CustomerController {
 
     //Registering A new Customer
     @PostMapping(path="/registerNewCustomer")
-    public  void addCustomer (@Valid @NotNull @RequestBody CustomerDetails customerDetails){
+    public  String addCustomer (@Valid @NotNull @RequestBody CustomerDetails customerDetails){
         System.out.println("Adding People");
         //security check class
 //        apiValidation.personValidator(person);
-        customerService.addCustomer(customerDetails);
+        return customerService.addCustomer(customerDetails);
     }
 
     // Validating A Existing Customer

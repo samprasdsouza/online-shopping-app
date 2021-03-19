@@ -23,7 +23,7 @@ import javax.validation.Path;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-@RequestMapping("api/v1/person")
+@RequestMapping("api/v2/person")
 @RestController
 public class PersonController {
     @Autowired
