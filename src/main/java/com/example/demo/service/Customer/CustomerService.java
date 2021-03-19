@@ -20,7 +20,7 @@ public class CustomerService {
         this.customerDao = customerDao;
     }
 
-    public int addCustomer(CustomerDetails customerDetails ){
+    public String addCustomer(CustomerDetails customerDetails ){
         return customerDao.insertCustomer(customerDetails);
     }
 

@@ -9,7 +9,7 @@ import java.util.List;
 public interface CustomerDao {
 
 
-    int insertCustomer(CustomerDetails  customerDetails);
+    String insertCustomer(CustomerDetails  customerDetails);
 
     List<CustomerDetails> selectAllCustomer();
 
