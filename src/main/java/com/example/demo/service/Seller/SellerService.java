@@ -2,8 +2,7 @@ package com.example.demo.service.Seller;
 
 import com.example.demo.dao.Seller.SellerDao;
 import com.example.demo.model.Customer.CustomerDetails;
-import com.example.demo.model.Seller.SellerDetails;
-import com.example.demo.model.Seller.SellerValidation;
+import com.example.demo.model.Seller.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -34,4 +33,22 @@ public class SellerService {
     {
         return sellerDao.GetSellerDetails(seller_username);
     }
+
+    public String InsertNewSellerProduct(SellerProduct sellerProduct){
+        return  sellerDao.InsertProduct(sellerProduct);
+    }
+    public String GetAllSellerProducts(Seller_UserName seller_userName)
+    {
+         return sellerDao.AllSellerProducts(seller_userName);
+    }
+
+    public  String ProductDetails(String ProductName,Seller_UserName seller_userName)
+    {
+        return sellerDao.getProductDetails(ProductName,seller_userName);
+    }
+    public String updateProduct(String ProductName, SellerProductUpdate sellerProductUpdate)
+    {
+        return sellerDao.updateProductDetails(ProductName,sellerProductUpdate);
+    }
+
 }

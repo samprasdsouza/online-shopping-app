@@ -1,7 +1,6 @@
 package com.example.demo.api.Seller;
 
-import com.example.demo.model.Seller.SellerDetails;
-import com.example.demo.model.Seller.SellerValidation;
+import com.example.demo.model.Seller.*;
 import com.example.demo.service.Seller.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -50,4 +49,29 @@ public class SellerController {
         sellerService.getSellerDetails(seller_username);
     }
 
+    //Inserting a new product-Seller
+    @PostMapping(path = "/insertProduct")
+    public void InsertProduct(@Valid @NotNull @RequestBody SellerProduct sellerProduct)
+    {
+        sellerService.InsertNewSellerProduct(sellerProduct);
+    }
+
+    // all products of a seller
+    @GetMapping(path ="/all_products")
+    public void GetAllSellerProducts(@Valid @NotNull @RequestBody Seller_UserName seller_userName)
+    {
+         sellerService.GetAllSellerProducts(seller_userName);
+    }
+
+    @GetMapping(path = "/seller_product_details/{product_name}")
+    public void getProductSellerDetails(@PathVariable("product_name")String product_name,@Valid @NotNull @RequestBody Seller_UserName seller_username)
+    {
+        sellerService.ProductDetails(product_name,seller_username);
+    }
+    // updating seller products
+    @PutMapping(path = "/update_product_details/{product_name}")
+    public void updateProductDetails(@PathVariable("product_name")String product_name,@Valid @NotNull @RequestBody SellerProductUpdate sellerProductUpdate)
+    {
+        sellerService.updateProduct(product_name,sellerProductUpdate);
+    }
 }
