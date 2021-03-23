@@ -1,8 +1,7 @@
 package com.example.demo.dao.Seller;
 
 
-import com.example.demo.model.Seller.SellerDetails;
-import com.example.demo.model.Seller.SellerValidation;
+import com.example.demo.model.Seller.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -62,6 +61,41 @@ public class SellerDataAccessService  implements SellerDao{
     public String GetSellerDetails(String seller_username) {
         System.out.println(seller_username);
 
+        return null;
+    }
+
+    @Override
+    public String InsertProduct(SellerProduct sellerProduct) {
+        System.out.println(sellerProduct.getSeller_id());
+        System.out.println(sellerProduct.getProduct_id());
+        System.out.println(sellerProduct.getProduct_price());
+        System.out.println(sellerProduct.getProduct_image_path());
+
+        // query to insert product
+        return null;
+    }
+
+    @Override
+    public String AllSellerProducts(Seller_UserName seller_userName) {
+        System.out.println(seller_userName.getSeller_username());
+        //query for getting all the seller products
+        return null;
+    }
+
+    @Override
+    public String getProductDetails(String Product_name, Seller_UserName seller_userName) {
+        System.out.println(Product_name);
+        System.out.println(seller_userName.getSeller_username());
+        return null;
+    }
+
+    @Override
+    public String updateProductDetails(String product_name, SellerProductUpdate sellerProductUpdate) {
+        System.out.println(product_name);
+        System.out.println(sellerProductUpdate.getProduct_price());
+        System.out.println(sellerProductUpdate.getProduct_image_path());
+
+        //query to update products
         return null;
     }
 }
