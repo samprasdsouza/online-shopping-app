@@ -2,6 +2,7 @@ package com.example.demo.service.Seller;
 
 import com.example.demo.dao.Seller.SellerDao;
 import com.example.demo.model.Customer.CustomerDetails;
+import com.example.demo.model.Customer.Customer_Cart;
 import com.example.demo.model.Seller.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -50,5 +51,16 @@ public class SellerService {
     {
         return sellerDao.updateProductDetails(ProductName,sellerProductUpdate);
     }
+
+    public String all_orders(Seller_UserName seller_userName)
+    {
+        return sellerDao.allOrders(seller_userName);
+    }
+
+    public String get_order_details(int customer_order_no,Seller_UserName seller_userName)
+    {
+        return  sellerDao.order_details(customer_order_no,seller_userName);
+    }
+
 
 }

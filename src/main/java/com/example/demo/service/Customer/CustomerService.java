@@ -3,7 +3,10 @@ package com.example.demo.service.Customer;
 import com.example.demo.dao.Customer.CustomerDao;
 import com.example.demo.model.Customer.CustomerDetails;
 import com.example.demo.model.Customer.CustomerValidation;
+import com.example.demo.model.Customer.Customer_Cart;
+import com.example.demo.model.Customer.Customer_Username;
 import com.example.demo.model.Person.Person;
+import com.example.demo.model.Product.Product_Details;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -38,6 +41,27 @@ public class CustomerService {
     {
         return customerDao.GetCustomerDetails(customer_username);
     }
+
+    public String getUserCart(Customer_Username customer_username)
+    {
+        return customerDao.UserCart(customer_username);
+    }
+
+    public String Insert_to_Cart(Customer_Cart customer_cart)
+    {
+        return customerDao.InsertToCart(customer_cart);
+    }
+    public String Delete_from_Cart(String customer_username, Product_Details product_details)
+    {
+        return customerDao.DeleteFromCart(customer_username,product_details);
+    }
+
+
+    public String getallOrders(Customer_Username customer_username)
+    {
+        return customerDao.allOrders(customer_username);
+    }
+
 
 //        return CustomerDao.updateCustomerByUsername(customer_username,customerDetails)
 //    public int updatePerson(UUID id, Person newPerson){
