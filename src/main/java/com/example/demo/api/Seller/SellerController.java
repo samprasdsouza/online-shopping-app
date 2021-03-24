@@ -63,9 +63,11 @@ public class SellerController {
          sellerService.GetAllSellerProducts(seller_userName);
     }
 
+    //search product of the seller
     @GetMapping(path = "/seller_product_details/{product_name}")
     public void getProductSellerDetails(@PathVariable("product_name")String product_name,@Valid @NotNull @RequestBody Seller_UserName seller_username)
     {
+        //return product details
         sellerService.ProductDetails(product_name,seller_username);
     }
     // updating seller products
@@ -74,4 +76,27 @@ public class SellerController {
     {
         sellerService.updateProduct(product_name,sellerProductUpdate);
     }
+    //get all orders of the seller
+    @GetMapping(path = "/all_orders")
+    public void all_orders(@Valid @NotNull @RequestBody Seller_UserName seller_userName)
+    {
+        //System.out.println(seller_userName.getSeller_username());
+        sellerService.all_orders(seller_userName);
+    }
+
+    //search for specific product
+    @GetMapping(path = "/search_product/{product_name}")
+    public void search_product(@PathVariable("product_name") String product_name,@Valid @NotNull @RequestBody Seller_UserName seller_userName)
+    {
+
+        //return
+    }
+
+    //order details
+    @GetMapping(path = "/order_details/{customer_order_no}")
+    public void order_details(@PathVariable("customer_order_no")int customer_order_no,@Valid @NotNull @RequestBody  Seller_UserName seller_userName)
+    {
+        sellerService.get_order_details(customer_order_no,seller_userName);
+    }
+
 }

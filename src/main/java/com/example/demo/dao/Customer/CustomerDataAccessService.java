@@ -4,6 +4,9 @@ import com.example.demo.dao.Customer.CustomerDao;
 import com.example.demo.helper.ApiValidation;
 import com.example.demo.model.Customer.CustomerDetails;
 import com.example.demo.model.Customer.CustomerValidation;
+import com.example.demo.model.Customer.Customer_Cart;
+import com.example.demo.model.Customer.Customer_Username;
+import com.example.demo.model.Product.Product_Details;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -81,6 +84,38 @@ public class CustomerDataAccessService implements CustomerDao {
     @Override
     public String GetCustomerDetails(String customer_username){
         System.out.println(customer_username);
+        return null;
+    }
+
+    @Override
+    public String UserCart(Customer_Username customer_username) {
+        System.out.println(customer_username.getCustomer_username());
+        //query to get all cart of the user
+        return null;
+    }
+
+    @Override
+    public String InsertToCart(Customer_Cart customer_cart) {
+        System.out.println(customer_cart.getCustomer_username());
+        System.out.println(customer_cart.getSeller_username());
+        System.out.println(customer_cart.getProduct_id());
+        return null;
+    }
+
+    @Override
+    public String DeleteFromCart(String customer_username, Product_Details product_details) {
+        System.out.println(customer_username);
+        System.out.println(product_details.getProduct_name());
+
+        System.out.println(product_details.getSeller_username());
+        return null;
+    }
+
+    @Override
+    public String allOrders(Customer_Username customer_username) {
+        System.out.println(customer_username.getCustomer_username());
+        //query to  get all the orders
+
         return null;
     }
 

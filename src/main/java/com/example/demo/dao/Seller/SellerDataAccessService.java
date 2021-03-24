@@ -98,4 +98,17 @@ public class SellerDataAccessService  implements SellerDao{
         //query to update products
         return null;
     }
+
+    @Override
+    public String allOrders(Seller_UserName seller_userName) {
+        System.out.println(seller_userName.getSeller_username());
+        return null;
+    }
+
+    @Override
+    public String order_details(int customer_order_no, Seller_UserName seller_userName) {
+        System.out.println(customer_order_no);
+        System.out.println(seller_userName.getSeller_username());
+        return null;
+    }
 }

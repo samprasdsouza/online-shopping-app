@@ -23,4 +23,8 @@ public interface SellerDao {
     String getProductDetails(String Product_name,Seller_UserName seller_userName);
 
     String updateProductDetails(String product_name, SellerProductUpdate sellerProductUpdate);
+
+    String allOrders(Seller_UserName seller_userName);
+
+    String order_details(int customer_order_no,Seller_UserName seller_userName);
 }
