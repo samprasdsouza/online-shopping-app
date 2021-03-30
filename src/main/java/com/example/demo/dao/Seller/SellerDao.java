@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface SellerDao {
 
-    int insertSeller(SellerDetails sellerDetails);
+    String insertSeller(SellerDetails sellerDetails);
 
     List<SellerDetails>selectALlSeller();
 
@@ -14,7 +14,7 @@ public interface SellerDao {
 
     String ValidateSeller(SellerValidation sellerValidation);
 
-    String GetSellerDetails(String seller_username);
+    SellerDetails GetSellerDetails(String seller_username);
 
     String InsertProduct(SellerProduct sellerProduct);
 

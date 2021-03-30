@@ -5,12 +5,17 @@ import com.example.demo.model.Seller.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import com.example.demo.helper.ApiValidation;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.ResourceBundle;
 
 @Repository("SellerModelPostgres")
 public class SellerDataAccessService  implements SellerDao{
-
+    @Autowired
+    private ApiValidation apiValidation;
     private final JdbcTemplate jdbcTemplate;
     @Autowired
     public SellerDataAccessService(JdbcTemplate jdbcTemplate) {
@@ -19,7 +24,7 @@ public class SellerDataAccessService  implements SellerDao{
 
 
     @Override
-    public int insertSeller(SellerDetails sellerDetails) {
+    public String insertSeller(SellerDetails sellerDetails) {
          System.out.println("Inserted Seller");
          System.out.println(sellerDetails.getSeller_name());
         System.out.println(sellerDetails.getSeller_email());
@@ -27,8 +32,19 @@ public class SellerDataAccessService  implements SellerDao{
         System.out.println(sellerDetails.getSeller_address());
         System.out.println(sellerDetails.getSeller_password());
         System.out.println(sellerDetails.getSeller_username());
+        //Insert Seller
+        String seller_username =sellerDetails.getSeller_username();
+        int val  = jdbcTemplate.queryForObject("select count(*) from seller  where seller_username=? ",new Object[] { seller_username },Integer.class);
+        System.out.println(val);
+        if(val == 1) {
+            return apiValidation.NewUserNameFull();
+        }
+        jdbcTemplate.update("INSERT INTO seller(seller_name,seller_email,seller_contact,seller_address,seller_password,seller_username) VALUES(?,?,?,?,?,?)",
+                    sellerDetails.getSeller_name(), sellerDetails.getSeller_email(), sellerDetails.getSeller_contact(),
+                    sellerDetails.getSeller_address(), sellerDetails.getSeller_password(), sellerDetails.getSeller_username());
+        return apiValidation.NewUserSuccess();
 
-        return 0;
+
     }
 
     @Override
@@ -45,6 +61,11 @@ public class SellerDataAccessService  implements SellerDao{
         System.out.println(sellerDetails.getSeller_address());
         System.out.println(sellerDetails.getSeller_password());
         System.out.println(sellerDetails.getSeller_username());
+        // update the details
+        jdbcTemplate.update("UPDATE seller SET seller_name=?,seller_email=?,seller_contact=?,seller_address=?,seller_password=? WHERE seller_username=? ",
+                sellerDetails.getSeller_name(), sellerDetails.getSeller_email(), sellerDetails.getSeller_contact(),
+                sellerDetails.getSeller_address(), sellerDetails.getSeller_password(), sellerDetails.getSeller_username());
+        System.out.println("User Updated");
         return null;
     }
 
@@ -54,13 +75,30 @@ public class SellerDataAccessService  implements SellerDao{
 
         System.out.println(sellerValidation.getSeller_username());
         System.out.println(sellerValidation.getSeller_password());
+        String entered_username = sellerValidation.getSeller_username();
+        String entered_password = sellerValidation.getSeller_password();
+        // get password for username
+        String orignal_password  = jdbcTemplate.queryForObject("select seller_password from seller where seller_username=? ",new Object[] { entered_username },String.class);
+        System.out.println(orignal_password);
+        if(entered_password.equals(orignal_password))
+        {
+            System.out.println("User Validated");
+            return null;
+        }
+        System.out.println("Wrong Password");
         return null;
     }
 
     @Override
-    public String GetSellerDetails(String seller_username) {
+    public SellerDetails GetSellerDetails(String seller_username) {
         System.out.println(seller_username);
+        List<SellerDetails> sellers = jdbcTemplate.query("SELECT * FROM seller WHERE seller_username=?",
+                new Object[]{seller_username}, (resultSet, i) -> {
+            return toSeller(resultSet);
+        });
 
+        if(sellers.size()==1)return  sellers.get(0);
+        System.out.println("returning NULL");
         return null;
     }
 
@@ -110,5 +148,20 @@ public class SellerDataAccessService  implements SellerDao{
         System.out.println(customer_order_no);
         System.out.println(seller_userName.getSeller_username());
         return null;
+    }
+
+    private SellerDetails toSeller(ResultSet resultSet) throws SQLException{
+        SellerDetails sellerDetails = new SellerDetails();
+        System.out.println("Creating a new object");
+        //set the values
+
+        sellerDetails.setSeller_name(resultSet.getString("seller_name"));
+        sellerDetails.setSeller_email(resultSet.getString("seller_email"));
+        sellerDetails.setSeller_contact(resultSet.getString("seller_contact"));
+        sellerDetails.setSeller_address(resultSet.getString("seller_address"));
+        sellerDetails.setSeller_password(resultSet.getString("seller_password"));
+        sellerDetails.setSeller_username(resultSet.getString("seller_username"));
+
+        return sellerDetails;
     }
 }

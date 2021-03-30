@@ -82,7 +82,6 @@ public class CustomerController {
     }
 
     //All orders
-
     @GetMapping(path = "/orders")
     public void allOrders(@Valid @NotNull @RequestBody Customer_Username customer_username)
     {
