@@ -17,7 +17,7 @@ public class SellerService {
         this.sellerDao = sellerDao;
     }
 
-    public int addSeller(SellerDetails sellerDetails){
+    public String addSeller(SellerDetails sellerDetails){
         return sellerDao.insertSeller(sellerDetails);
     }
 
@@ -30,7 +30,7 @@ public class SellerService {
         return sellerDao.updateSellerByUsername(seller_username,sellerDetails);
     }
 
-    public String getSellerDetails(String seller_username)
+    public SellerDetails getSellerDetails(String seller_username)
     {
         return sellerDao.GetSellerDetails(seller_username);
     }

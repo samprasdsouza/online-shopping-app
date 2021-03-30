@@ -44,9 +44,9 @@ public class SellerController {
 
     //Getting Seller Details by UserName
     @GetMapping(path = "{seller_username}")
-    public void GetSellerDetails(@PathVariable("seller_username")String seller_username)
+    public SellerDetails GetSellerDetails(@PathVariable("seller_username")String seller_username)
     {
-        sellerService.getSellerDetails(seller_username);
+        return sellerService.getSellerDetails(seller_username);
     }
 
     //Inserting a new product-Seller

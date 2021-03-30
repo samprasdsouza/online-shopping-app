@@ -54,6 +54,7 @@ public class CustomerDataAccessService implements CustomerDao {
 
     @Override
     public int deleteCustomerByUsername(CustomerDetails customerDetails) {
+
         return 0;
     }
 
@@ -78,12 +79,14 @@ public class CustomerDataAccessService implements CustomerDao {
        System.out.println(customerValidation.getCustomer_username());
        System.out.println(customerValidation.getCustomer_password());
          //Query To Validate The UserName and Password
+
         return null;
     }
 
     @Override
     public String GetCustomerDetails(String customer_username){
         System.out.println(customer_username);
+
         return null;
     }
 
@@ -96,9 +99,31 @@ public class CustomerDataAccessService implements CustomerDao {
 
     @Override
     public String InsertToCart(Customer_Cart customer_cart) {
-        System.out.println(customer_cart.getCustomer_username());
-        System.out.println(customer_cart.getSeller_username());
-        System.out.println(customer_cart.getProduct_id());
+//        System.out.println(customer_cart.getCustomer_username());
+        String customer_username = customer_cart.getCustomer_username();
+//        System.out.println(customer_cart.getSeller_username());
+        String seller_username = customer_cart.getSeller_username();
+//        System.out.println(customer_cart.getProduct_id());
+        int product_id = customer_cart.getProduct_id();
+        //Insert into cart
+        //get customer
+            int customer_id = jdbcTemplate.queryForObject("SELECT customer_id FROM customer WHERE customer_username=?",new Object[] { customer_username },Integer.class);
+            System.out.println(customer_id);
+        //get seller id
+            int seller_id = jdbcTemplate.queryForObject("SELECT seller_id FROM seller WHERE seller_username=?",new Object[] { seller_username },Integer.class);
+        // get product unit price
+            int  product_unit_price = jdbcTemplate.queryForObject("SELECT product_price FROM seller_product WHERE seller_id=? AND product_id=?",new Object[] { seller_id ,product_id},Integer.class);
+        //check if present
+        int count  = jdbcTemplate.queryForObject("select count(*) from cart where customer_id=? AND seller_id=? AND product_id=? ",new Object[] { customer_id , seller_id , product_id },Integer.class);
+        System.out.println(count);
+        if(count == 1) {
+            jdbcTemplate.update("UPDATE cart SET quantity =quantity+1 WHERE customer_id =? AND seller_id=? AND product_id=?",customer_id,seller_id,product_id);
+        }
+        else{
+            //insert and update
+            jdbcTemplate.update("INSERT INTO cart(customer_id,seller_id,product_id,product_unit_price) VALUES(?,?,?,?)", customer_id ,seller_id,product_id,product_unit_price );
+            jdbcTemplate.update("UPDATE cart SET quantity =quantity+1 WHERE customer_id =? AND seller_id=? AND product_id=?",customer_id,seller_id,product_id);
+        }
         return null;
     }
 
