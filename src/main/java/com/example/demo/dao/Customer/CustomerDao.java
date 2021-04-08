@@ -22,7 +22,7 @@ public interface CustomerDao {
 
     String ValidateCustomer(CustomerValidation customerValidation);
 
-    String GetCustomerDetails(String customer_username);
+    CustomerDetails GetCustomerDetails(String customer_username);
 
     String UserCart(Customer_Username customer_username);
 

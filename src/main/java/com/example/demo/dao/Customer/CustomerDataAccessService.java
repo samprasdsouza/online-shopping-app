@@ -8,10 +8,13 @@ import com.example.demo.model.Customer.Customer_Cart;
 import com.example.demo.model.Customer.Customer_Username;
 import com.example.demo.model.Person.Person;
 import com.example.demo.model.Product.Product_Details;
+import com.example.demo.model.Seller.SellerDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
@@ -111,9 +114,17 @@ public class CustomerDataAccessService implements CustomerDao {
     }
 
     @Override
-    public String GetCustomerDetails(String customer_username){
+    public CustomerDetails GetCustomerDetails(String customer_username){
         System.out.println(customer_username);
 
+        System.out.println("Executing Query");
+        List<CustomerDetails> customers = jdbcTemplate.query("select * from customer where customer_username =?",
+                new Object[]{customer_username}, (resultSet, i) -> {
+                    return toCustomer(resultSet);
+                });
+//    System.out.println("returning NULL");
+        if (customers.size() == 1) return customers.get(0);
+        System.out.println("returning NULL");
         return null;
     }
 
@@ -173,6 +184,22 @@ public class CustomerDataAccessService implements CustomerDao {
         //query to  get all the orders
 
         return null;
+    }
+
+
+    private CustomerDetails toCustomer(ResultSet resultSet) throws SQLException {
+        CustomerDetails customerDetails = new CustomerDetails();
+        System.out.println("Creating a new object");
+        //set the values
+
+        customerDetails.setCustomer_name(resultSet.getString("customer_name"));
+        customerDetails.setCustomer_email(resultSet.getString("customer_email"));
+        customerDetails.setCustomer_contact(resultSet.getString("customer_contact"));
+        customerDetails.setCustomer_address(resultSet.getString("customer_address"));
+        customerDetails.setCustomer_password(resultSet.getString("customer_password"));
+        customerDetails.setCustomer_username(resultSet.getString("customer_username"));
+
+        return customerDetails;
     }
 
 }
