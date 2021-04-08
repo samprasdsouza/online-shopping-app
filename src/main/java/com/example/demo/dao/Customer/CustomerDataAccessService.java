@@ -6,12 +6,15 @@ import com.example.demo.model.Customer.CustomerDetails;
 import com.example.demo.model.Customer.CustomerValidation;
 import com.example.demo.model.Customer.Customer_Cart;
 import com.example.demo.model.Customer.Customer_Username;
+import com.example.demo.model.Person.Person;
 import com.example.demo.model.Product.Product_Details;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
+
 @Repository("CustomerModelPostgres")
 public class CustomerDataAccessService implements CustomerDao {
 
@@ -48,8 +51,14 @@ public class CustomerDataAccessService implements CustomerDao {
     }
 
     @Override
-    public List<CustomerDetails> selectAllCustomer() {
-        return null;
+    public List<Customer_Username> selectAllCustomer() {
+        System.out.println("Selecting Customers");
+        final String sql  = "Select customer_username from customer";
+        List<Customer_Username> customer = jdbcTemplate.query(sql,(resultSet, i)->{
+            String name =  resultSet.getString("customer_username");
+            return new Customer_Username(name);
+        });
+        return customer;
     }
 
     @Override
@@ -66,6 +75,14 @@ public class CustomerDataAccessService implements CustomerDao {
         System.out.println(customerDetails.getCustomer_email());
         System.out.println(customerDetails.getCustomer_email());
         //Update Customer
+        String customer_name = customerDetails.getCustomer_name();
+        String customer_email =customerDetails.getCustomer_email();
+        String customer_contact=customerDetails.getCustomer_contact();
+        String customer_address=customerDetails.getCustomer_address();
+        String customer_password=customerDetails.getCustomer_password();
+        jdbcTemplate.update("UPDATE customer SET customer_name=?,customer_email=?,customer_contact=?,customer_address=?,customer_password=? Where customer_username=?",customer_name,customer_email,customer_contact,customer_address,customer_password,customer_username);
+        // update Query
+        System.out.println("Update Done");
 
         return null;
     }
@@ -79,7 +96,17 @@ public class CustomerDataAccessService implements CustomerDao {
        System.out.println(customerValidation.getCustomer_username());
        System.out.println(customerValidation.getCustomer_password());
          //Query To Validate The UserName and Password
-
+        String entered_username = customerValidation.getCustomer_username();
+        String entered_password = customerValidation.getCustomer_password();
+        // get password for username
+        String original_password  = jdbcTemplate.queryForObject("select customer_password from customer where customer_username=? ",new Object[] { entered_username },String.class);
+        System.out.println(original_password);
+        if(entered_password.equals(original_password))
+        {
+            System.out.println("Customer Validated");
+            return null;
+        }
+        System.out.println("Wrong Password");
         return null;
     }
 
@@ -133,6 +160,10 @@ public class CustomerDataAccessService implements CustomerDao {
         System.out.println(product_details.getProduct_name());
 
         System.out.println(product_details.getSeller_username());
+        // if the quantity is 1 then delete the row
+        // else then reduce the quantity
+
+
         return null;
     }
 

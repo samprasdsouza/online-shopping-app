@@ -14,7 +14,7 @@ public interface CustomerDao {
 
     String insertCustomer(CustomerDetails  customerDetails);
 
-    List<CustomerDetails> selectAllCustomer();
+    List<Customer_Username> selectAllCustomer();
 
     int deleteCustomerByUsername(CustomerDetails customerDetails);
 

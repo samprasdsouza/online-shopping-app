@@ -105,11 +105,25 @@ public class SellerDataAccessService  implements SellerDao{
     @Override
     public String InsertProduct(SellerProduct sellerProduct) {
         System.out.println(sellerProduct.getSeller_id());
+        int seller_id = sellerProduct.getSeller_id();
         System.out.println(sellerProduct.getProduct_id());
+        int product_id = sellerProduct.getProduct_id();
         System.out.println(sellerProduct.getProduct_price());
+        int product_price = sellerProduct.getProduct_price();
         System.out.println(sellerProduct.getProduct_image_path());
+        String product_image_path= sellerProduct.getProduct_image_path();
 
         // query to insert product
+        // check if already exists ??
+            int count_of_seller_product =jdbcTemplate.queryForObject("select count(*) from seller_product where seller_id=? AND  product_id=? ",new Object[] { seller_id , product_id },Integer.class);
+            if(count_of_seller_product ==1)
+            {
+                //insert
+                jdbcTemplate.update("INSERT INTO seller_product(seller_id,product_id,product_price,product_image_path) VALUES(?,?,?,?)" ,seller_id,product_id,product_price,product_image_path);
+                System.out.println("product  insert");
+                return null;
+            }
+            System.out.println("product already exits");
         return null;
     }
 
@@ -124,16 +138,26 @@ public class SellerDataAccessService  implements SellerDao{
     public String getProductDetails(String Product_name, Seller_UserName seller_userName) {
         System.out.println(Product_name);
         System.out.println(seller_userName.getSeller_username());
+        //
         return null;
     }
 
     @Override
     public String updateProductDetails(String product_name, SellerProductUpdate sellerProductUpdate) {
         System.out.println(product_name);
+        String seller_username = sellerProductUpdate.seller_username();
         System.out.println(sellerProductUpdate.getProduct_price());
+        int product_price = sellerProductUpdate.getProduct_price();
         System.out.println(sellerProductUpdate.getProduct_image_path());
+        String  product_image_path = sellerProductUpdate.getProduct_image_path();
 
+        int product_id = jdbcTemplate.queryForObject("SELECT product_id FROM product WHERE product_name=?",new Object[] { product_name },Integer.class) ;
+        int seller_id = jdbcTemplate.queryForObject("SELECT seller_id FROM seller WHERE seller_username=?",new Object[] { seller_username },Integer.class);
+        jdbcTemplate.update("UPDATE seller_product SET product_price=?,product_image_path=? WHERE   seller_id=? AND product_id=?",product_price,product_image_path,seller_id,product_id);
+
+        System.out.println("seller Products details updated ");
         //query to update products
+
         return null;
     }
 
