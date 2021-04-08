@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -60,6 +61,11 @@ public class CustomerService {
     public String getallOrders(Customer_Username customer_username)
     {
         return customerDao.allOrders(customer_username);
+    }
+
+    //list of all customer_username
+    public List<Customer_Username> allCustomerUsername() {
+        return customerDao.selectAllCustomer();
     }
 
 

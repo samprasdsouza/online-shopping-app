@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -34,6 +35,12 @@ public class CustomerController {
         //security check class
 //        apiValidation.personValidator(person);
         return customerService.addCustomer(customerDetails);
+    }
+
+    //list of customer
+    @GetMapping(path="/allCustomer")
+    public List<Customer_Username> getALlCustomer_Username(){
+        return customerService.allCustomerUsername();
     }
 
     // Validating A Existing Customer
