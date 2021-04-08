@@ -6,12 +6,12 @@ import javax.validation.constraints.NotBlank;
 
 public class CustomerDetails {
     @NotBlank
-    private final String customer_name;
-    private final String customer_email;
-    private final String customer_contact;
-    private final String customer_address;
-    private final String customer_password;
-    private final String customer_username;
+    private  String customer_name;
+    private  String customer_email;
+    private  String customer_contact;
+    private  String customer_address;
+    private  String customer_password;
+    private  String customer_username;
 
     public CustomerDetails(@JsonProperty("customer_name")String customer_name,@JsonProperty("customer_email") String customer_email,
                            @JsonProperty("customer_contact")String customer_contact, @JsonProperty("customer_address")String customer_address,
@@ -22,6 +22,10 @@ public class CustomerDetails {
         this.customer_address = customer_address;
         this.customer_password = customer_password;
         this.customer_username = customer_username;
+    }
+
+    public  CustomerDetails(){
+
     }
 
     public String getCustomer_name()
@@ -49,4 +53,30 @@ public class CustomerDetails {
     {
         return customer_username;
     }
+
+    // set methods
+    public void setCustomer_name(String customer_name){
+        this.customer_name = customer_name;
+    }
+    public void setCustomer_email(String customer_email){
+        this.customer_email = customer_email;
+    }
+
+    public void setCustomer_contact(String customer_contact)
+    {
+        this.customer_contact = customer_contact;
+    }
+
+    public void setCustomer_address(String customer_address){
+        this.customer_address = customer_address;
+    }
+    public void setCustomer_password(String customer_password)
+    {
+        this.customer_password = customer_password;
+    }
+    public void setCustomer_username(String customer_username)
+    {
+        this.customer_username = customer_username;
+    }
+
 }
