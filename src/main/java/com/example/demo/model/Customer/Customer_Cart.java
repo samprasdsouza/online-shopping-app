@@ -19,6 +19,10 @@ public class Customer_Cart {
         this.quantity = quantity;
     }
 
+    public Customer_Cart(){
+
+    }
+
     public String getCustomer_username(){
         return customer_username;
     }
@@ -27,4 +31,20 @@ public class Customer_Cart {
     }
     public int getProduct_id(){ return product_id; }
     public int getQuantity(){ return quantity; }
+
+    // set methods
+
+    public void setCustomer_username(String customer_username){
+        this.customer_username = customer_username;
+    }
+    public void setSeller_username(String seller_username){
+        this.seller_username  =seller_username;
+    }
+
+    public  void setProduct_id(int product_id){
+        this.product_id =product_id;
+    }
+    public void setQuantity(int quantity){
+        this.quantity = quantity;
+    }
 }
