@@ -1,9 +1,6 @@
 package com.example.demo.dao.Customer;
 
-import com.example.demo.model.Customer.CustomerDetails;
-import com.example.demo.model.Customer.CustomerValidation;
-import com.example.demo.model.Customer.Customer_Cart;
-import com.example.demo.model.Customer.Customer_Username;
+import com.example.demo.model.Customer.*;
 import com.example.demo.model.Product.Product_Details;
 
 import java.util.List;
@@ -24,11 +21,11 @@ public interface CustomerDao {
 
     CustomerDetails GetCustomerDetails(String customer_username);
 
-    String UserCart(Customer_Username customer_username);
+    List<Customer_Cart> UserCart(Customer_Username customer_username);
 
     String InsertToCart(Customer_Cart customer_cart);
 
     String DeleteFromCart(String customer_Username, Product_Details product_details);
 
-    String allOrders(Customer_Username customer_username);
+    List<Customer_Orders> allOrders(Customer_Username customer_username);
 }

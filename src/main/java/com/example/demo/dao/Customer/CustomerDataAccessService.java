@@ -2,10 +2,7 @@ package com.example.demo.dao.Customer;
 
 import com.example.demo.dao.Customer.CustomerDao;
 import com.example.demo.helper.ApiValidation;
-import com.example.demo.model.Customer.CustomerDetails;
-import com.example.demo.model.Customer.CustomerValidation;
-import com.example.demo.model.Customer.Customer_Cart;
-import com.example.demo.model.Customer.Customer_Username;
+import com.example.demo.model.Customer.*;
 import com.example.demo.model.Person.Person;
 import com.example.demo.model.Product.Product_Details;
 import com.example.demo.model.Seller.SellerDetails;
@@ -84,7 +81,6 @@ public class CustomerDataAccessService implements CustomerDao {
         String customer_address=customerDetails.getCustomer_address();
         String customer_password=customerDetails.getCustomer_password();
         jdbcTemplate.update("UPDATE customer SET customer_name=?,customer_email=?,customer_contact=?,customer_address=?,customer_password=? Where customer_username=?",customer_name,customer_email,customer_contact,customer_address,customer_password,customer_username);
-        // update Query
         System.out.println("Update Done");
 
         return null;
@@ -129,10 +125,21 @@ public class CustomerDataAccessService implements CustomerDao {
     }
 
     @Override
-    public String UserCart(Customer_Username customer_username) {
+    public List<Customer_Cart> UserCart(Customer_Username customer_username) {
         System.out.println(customer_username.getCustomer_username());
         //query to get all cart of the user
-        return null;
+        //
+        int customer_id = jdbcTemplate.queryForObject("SELECT customer_id FROM customer WHERE customer_username=?",new Object[] { customer_username },Integer.class);
+        System.out.println(customer_id);
+        //
+
+        System.out.println("Executing Query to get all orders in cart");
+        List<Customer_Cart> customer_cart = jdbcTemplate.query("select * from cart where customer_id =?",
+                new Object[]{customer_id}, (resultSet, i) -> {
+                    return toCustomer_Cart(resultSet);
+                });
+//    System.out.println("returning NULL");
+        return customer_cart;
     }
 
     @Override
@@ -169,21 +176,43 @@ public class CustomerDataAccessService implements CustomerDao {
     public String DeleteFromCart(String customer_username, Product_Details product_details) {
         System.out.println(customer_username);
         System.out.println(product_details.getProduct_name());
-
+        String product_name = product_details.getProduct_name();
         System.out.println(product_details.getSeller_username());
+        String seller_username = product_details.getSeller_username();
+        int customer_id = jdbcTemplate.queryForObject("SELECT customer_id FROM customer WHERE customer_username=?",new Object[] { customer_username },Integer.class);
+        int seller_id = jdbcTemplate.queryForObject("SELECT seller_id FROM seller WHERE seller_username=?",new Object[] { seller_username },Integer.class);
+        int product_id = jdbcTemplate.queryForObject("SELECT product_id FROM products WHERE product_name=?",new Object[] { product_name },Integer.class);
+
         // if the quantity is 1 then delete the row
-        // else then reduce the quantity
+        int quatity_of_product =jdbcTemplate.queryForObject("SELECT quantity FROM cart WHERE customer_id=? AND seller_id=? AND product_id=? ",new Object[] { customer_id,seller_id,product_id },Integer.class);
+        if(quatity_of_product==1)
+        {
+                //delete the entry
+            jdbcTemplate.update("DELETE  FROM cart WHERE customer_id =? AND seller_id=? AND product_id=?",customer_id,seller_id,product_id);
+
+        }
+        else{
+            //update the  quantity
+            jdbcTemplate.update("UPDATE cart SET quantity =quantity-1 WHERE customer_id =? AND seller_id=? AND product_id=?",customer_id,seller_id,product_id);
+        }
+
 
 
         return null;
     }
 
     @Override
-    public String allOrders(Customer_Username customer_username) {
+    public List<Customer_Orders> allOrders(Customer_Username customer_username) {
         System.out.println(customer_username.getCustomer_username());
         //query to  get all the orders
-
-        return null;
+        int customer_id = jdbcTemplate.queryForObject("SELECT customer_id FROM customer WHERE customer_username=?",new Object[] { customer_username },Integer.class);
+        //
+        System.out.println("Executing Query to get all orders from orders table");
+        List<Customer_Orders> customer_orders = jdbcTemplate.query("select * from order where customer_id =?",
+                new Object[]{customer_id}, (resultSet, i) -> {
+                    return toCustomer_Orders(resultSet);
+                });
+        return customer_orders;
     }
 
 
@@ -200,6 +229,43 @@ public class CustomerDataAccessService implements CustomerDao {
         customerDetails.setCustomer_username(resultSet.getString("customer_username"));
 
         return customerDetails;
+    }
+    private Customer_Cart toCustomer_Cart(ResultSet resultSet)throws SQLException{
+        Customer_Cart customer_cart = new Customer_Cart();
+        System.out.println("Creating new object");
+
+        int customer_id = resultSet.getInt("customer_id");
+        String customer_username = jdbcTemplate.queryForObject("SELECT customer_username FROM customer WHERE customer_id=?",new Object[] { customer_id },String.class);;
+        customer_cart.setCustomer_username(customer_username);
+        int seller_id =  resultSet.getInt("seller_id");
+        String seller_username = jdbcTemplate.queryForObject("SELECT seller_username FROM seller WHERE seller_id=?",new Object[] { seller_id },String.class);
+        customer_cart.setSeller_username(seller_username);
+
+
+        return customer_cart;
+    }
+
+    private Customer_Orders toCustomer_Orders(ResultSet resultSet)throws SQLException{
+        Customer_Orders customer_orders = new Customer_Orders();
+        System.out.println("Creating new object");
+        int customer_id = resultSet.getInt("customer_id");
+        String customer_username =  jdbcTemplate.queryForObject("SELECT customer_username FROM customer WHERE customer_id=?",new Object[] { customer_id },String.class);
+        customer_orders.setCustomer_username(customer_username);
+        int seller_id =  resultSet.getInt("seller_id");
+        String seller_username = jdbcTemplate.queryForObject("SELECT seller_username FROM seller WHERE seller_id=?",new Object[] { seller_id },String.class);
+        customer_orders.setSeller_Username(seller_username);
+        int product_id = resultSet.getInt("product_id");
+        String product_name = jdbcTemplate.queryForObject("SELECT product_name FROM products WHERE product_id=?",new Object[] { product_id },String.class);
+
+        customer_orders.setProduct_name(product_name);
+        int quantity = resultSet.getInt("quantity");
+        customer_orders.setQuantity(quantity);
+        int customer_order_no = resultSet.getInt("customer_order_no");
+        customer_orders.setCustomer_order_no(customer_order_no);
+        int product_unit_price = resultSet.getInt("product_unit_price");
+        customer_orders.setProduct_unit_price(product_unit_price);
+
+        return customer_orders;
     }
 
 }
