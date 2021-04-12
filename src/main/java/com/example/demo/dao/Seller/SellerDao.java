@@ -18,13 +18,13 @@ public interface SellerDao {
 
     String InsertProduct(SellerProduct sellerProduct);
 
-    String AllSellerProducts(Seller_UserName seller_userName);
+    List<SellerProduct> AllSellerProducts(Seller_UserName seller_userName);
 
-    String getProductDetails(String Product_name,Seller_UserName seller_userName);
+    List<SellerProduct> getProductDetails(String Product_name, Seller_UserName seller_userName);
 
     String updateProductDetails(String product_name, SellerProductUpdate sellerProductUpdate);
 
-    String allOrders(Seller_UserName seller_userName);
+    List<Seller_Orders> allOrders(Seller_UserName seller_userName);
 
     String order_details(int customer_order_no,Seller_UserName seller_userName);
 }

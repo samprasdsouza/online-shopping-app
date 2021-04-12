@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SellerService {
 
@@ -38,12 +40,12 @@ public class SellerService {
     public String InsertNewSellerProduct(SellerProduct sellerProduct){
         return  sellerDao.InsertProduct(sellerProduct);
     }
-    public String GetAllSellerProducts(Seller_UserName seller_userName)
+    public List<SellerProduct> GetAllSellerProducts(Seller_UserName seller_userName)
     {
          return sellerDao.AllSellerProducts(seller_userName);
     }
 
-    public  String ProductDetails(String ProductName,Seller_UserName seller_userName)
+    public  List<SellerProduct> ProductDetails(String ProductName, Seller_UserName seller_userName)
     {
         return sellerDao.getProductDetails(ProductName,seller_userName);
     }
@@ -52,7 +54,7 @@ public class SellerService {
         return sellerDao.updateProductDetails(ProductName,sellerProductUpdate);
     }
 
-    public String all_orders(Seller_UserName seller_userName)
+    public List<Seller_Orders> all_orders(Seller_UserName seller_userName)
     {
         return sellerDao.allOrders(seller_userName);
     }
