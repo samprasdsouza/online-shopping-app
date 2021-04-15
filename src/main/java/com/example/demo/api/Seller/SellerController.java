@@ -89,7 +89,6 @@ public class SellerController {
     @GetMapping(path = "/search_product/{product_name}")
     public void search_product(@PathVariable("product_name") String product_name,@Valid @NotNull @RequestBody Seller_UserName seller_userName)
     {
-
         //return
     }
 
