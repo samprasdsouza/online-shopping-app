@@ -129,7 +129,8 @@ public class CustomerDataAccessService implements CustomerDao {
         System.out.println(customer_username.getCustomer_username());
         //query to get all cart of the user
         //
-        int customer_id = jdbcTemplate.queryForObject("SELECT customer_id FROM customer WHERE customer_username=?",new Object[] { customer_username },Integer.class);
+
+        int customer_id = jdbcTemplate.queryForObject("SELECT customer_id FROM customer WHERE customer_username=?",new Object[] { customer_username.getCustomer_username() },Integer.class);
         System.out.println(customer_id);
         //
 
@@ -241,6 +242,9 @@ public class CustomerDataAccessService implements CustomerDao {
         String seller_username = jdbcTemplate.queryForObject("SELECT seller_username FROM seller WHERE seller_id=?",new Object[] { seller_id },String.class);
         customer_cart.setSeller_username(seller_username);
 
+        customer_cart.setQuantity(resultSet.getInt("quantity"));
+        customer_cart.setProduct_id(resultSet.getInt("product_id"));
+        customer_cart.setProduct_unit_price(resultSet.getInt("product_unit_price"));
 
         return customer_cart;
     }

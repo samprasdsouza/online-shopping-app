@@ -58,9 +58,9 @@ public class CustomerController {
 
     //Getting Customer Details by Username
     @GetMapping(path="{customer_username}")
-    public void GetCustomerDetails(@PathVariable("customer_username")String customer_username)
+    public CustomerDetails GetCustomerDetails(@PathVariable("customer_username")String customer_username)
     {
-        customerService.getCustomerDetails(customer_username);
+        return customerService.getCustomerDetails(customer_username);
     }
 
     // All products of Cart
