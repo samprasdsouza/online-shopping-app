@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @RequestMapping("api/v1/Seller")
 @RestController
@@ -58,17 +59,17 @@ public class SellerController {
 
     // all products of a seller
     @GetMapping(path ="/all_products")
-    public void GetAllSellerProducts(@Valid @NotNull @RequestBody Seller_UserName seller_userName)
+    public List<SellerProduct> GetAllSellerProducts(@Valid @NotNull @RequestBody Seller_UserName seller_userName)
     {
-         sellerService.GetAllSellerProducts(seller_userName);
+         return sellerService.GetAllSellerProducts(seller_userName);
     }
 
     //search product of the seller
     @GetMapping(path = "/seller_product_details/{product_name}")
-    public void getProductSellerDetails(@PathVariable("product_name")String product_name,@Valid @NotNull @RequestBody Seller_UserName seller_username)
+    public List<SellerProduct> getProductSellerDetails(@PathVariable("product_name")String product_name,@Valid @NotNull @RequestBody Seller_UserName seller_username)
     {
         //return product details
-        sellerService.ProductDetails(product_name,seller_username);
+       return sellerService.ProductDetails(product_name,seller_username);
     }
     // updating seller products
     @PutMapping(path = "/update_product_details/{product_name}")
@@ -78,10 +79,10 @@ public class SellerController {
     }
     //get all orders of the seller
     @GetMapping(path = "/all_orders")
-    public void all_orders(@Valid @NotNull @RequestBody Seller_UserName seller_userName)
+    public List<Seller_Orders> all_orders(@Valid @NotNull @RequestBody Seller_UserName seller_userName)
     {
         //System.out.println(seller_userName.getSeller_username());
-        sellerService.all_orders(seller_userName);
+       return  sellerService.all_orders(seller_userName);
     }
 
     //search for specific product
