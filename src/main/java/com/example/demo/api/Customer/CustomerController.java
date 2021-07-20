@@ -67,6 +67,7 @@ public class CustomerController {
     @GetMapping(path = "/cart")
     public List<Customer_Cart> allCart(@Valid @NotNull @RequestBody Customer_Username customer_username)
     {
+        System.out.println(customer_username);
         return customerService.getUserCart(customer_username);
     }
 
@@ -83,6 +84,15 @@ public class CustomerController {
     public void DeleteFromCart(@PathVariable("customer_username") String customer_username,@Valid @NotNull @RequestBody  Product_Details product_details)
     {
         customerService.Delete_from_Cart(customer_username,product_details);
+    }
+
+    // order successfully executed
+
+    @GetMapping(path = "/order_executed_successfully/{customer_username}")
+    public String Ordered_Successfully(@PathVariable("customer_username") String customer_username)
+    {
+        System.out.println(customer_username);
+        return customerService.ordered_successfully(customer_username);
     }
 
     //All orders

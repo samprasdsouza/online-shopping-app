@@ -9,7 +9,8 @@ public class Customer_Cart {
     private int product_id;
     private int quantity;
     private int product_unit_price;
-
+    private int seller_id;
+    private int customer_id;
     public Customer_Cart(@JsonProperty("customer_username") String customer_username,
                          @JsonProperty("seller_username") String seller_username,
                          @JsonProperty("product_id") int product_id,
@@ -21,6 +22,8 @@ public class Customer_Cart {
         this.product_id = product_id;
         this.quantity = quantity;
         this.product_unit_price=product_unit_price;
+//        this.seller_id = seller_id;
+//        this.customer_id = customer_id;
     }
 
     public Customer_Cart(){
@@ -39,6 +42,12 @@ public class Customer_Cart {
       return   product_unit_price;
     }
 
+    public int getseller_id(){
+        return   seller_id;
+    }
+    public int getcustomer_id(){
+        return   customer_id;
+    }
 
     // set methods
 
@@ -57,5 +66,12 @@ public class Customer_Cart {
     }
     public void setProduct_unit_price(int product_unit_price){
         this.product_unit_price=product_unit_price;
+    }
+
+    public void setSeller_id(int seller_id){
+        this.seller_id = seller_id;
+    }
+    public void setCustomer_id(int customer_id){
+        this.customer_id = customer_id;
     }
 }

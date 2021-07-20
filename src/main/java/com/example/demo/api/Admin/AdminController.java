@@ -41,4 +41,5 @@ public class AdminController {
         return "spring security example";
     }
 
+
 }

@@ -195,6 +195,9 @@ public class SellerDataAccessService  implements SellerDao{
     public String order_details(int customer_order_no, Seller_UserName seller_userName) {
         System.out.println(customer_order_no);
         System.out.println(seller_userName.getSeller_username());
+        // query to get all the orders
+
+        //
         return null;
     }
 

@@ -28,4 +28,6 @@ public interface CustomerDao {
     String DeleteFromCart(String customer_Username, Product_Details product_details);
 
     List<Customer_Orders> allOrders(Customer_Username customer_username);
+
+    String ordered_executed_successfully(String customer_username);
 }

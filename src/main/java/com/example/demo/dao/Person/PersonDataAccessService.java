@@ -48,6 +48,7 @@ public class PersonDataAccessService implements PersonDao {
         List<Person> people = jdbcTemplate.query(sql,(resultSet,i)->{
            UUID id =  UUID.fromString(resultSet.getString("id"));
            String name =  resultSet.getString("name");
+           System.out.println(name);
             return new Person(id ,name );
         });
         return people;
@@ -56,9 +57,10 @@ public class PersonDataAccessService implements PersonDao {
     @Override
     public Person selectPersonById(UUID id) {
         System.out.println("Executing Query");
+        int vsl =0;
     List<Person> persons = jdbcTemplate.query("select * from Person where id =?",
                 new Object[]{id}, (resultSet, i) -> {
-                    return toPerson(resultSet);
+                    return toPerson(resultSet,vsl);
                 });
 //    System.out.println("returning NULL");
     if (persons.size() == 1) return persons.get(0);
@@ -83,12 +85,13 @@ public class PersonDataAccessService implements PersonDao {
         return 0;
     }
 
-    private Person toPerson(ResultSet resultSet) throws SQLException {
+    private Person toPerson(ResultSet resultSet ,int val) throws SQLException {
         Person person = new Person();
         System.out.println("new object");
 //        person.setid(resultSet.getLong("id"));
         person.setName(resultSet.getString("name"));
         System.out.println(person.getName());
+        System.out.println(val);
         return person;
     }
 }

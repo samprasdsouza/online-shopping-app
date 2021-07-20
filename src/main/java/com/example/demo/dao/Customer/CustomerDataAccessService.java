@@ -206,8 +206,9 @@ public class CustomerDataAccessService implements CustomerDao {
     public List<Customer_Orders> allOrders(Customer_Username customer_username) {
         System.out.println(customer_username.getCustomer_username());
         //query to  get all the orders
-        int customer_id = jdbcTemplate.queryForObject("SELECT customer_id FROM customer WHERE customer_username=?",new Object[] { customer_username },Integer.class);
-        //
+        int customer_id = jdbcTemplate.queryForObject("SELECT customer_id FROM customer WHERE customer_username=?",new Object[] { customer_username.getCustomer_username() },Integer.class);
+
+        System.out.println(customer_id);
         System.out.println("Executing Query to get all orders from orders table");
         List<Customer_Orders> customer_orders = jdbcTemplate.query("select * from order where customer_id =?",
                 new Object[]{customer_id}, (resultSet, i) -> {
@@ -216,7 +217,55 @@ public class CustomerDataAccessService implements CustomerDao {
         return customer_orders;
     }
 
+    @Override
+    public String ordered_executed_successfully(String customer_username)
+    {
+        System.out.println(customer_username);
+        //
+        int customer_id = jdbcTemplate.queryForObject("SELECT customer_id FROM customer WHERE customer_username=?",new Object[] { customer_username },Integer.class);
+        System.out.println(customer_id);
 
+        int customer_order_n0 =jdbcTemplate.queryForObject("SELECT customer_order_no FROM customer WHERE customer_username=?",new Object[] { customer_username },Integer.class);
+        System.out.println(customer_order_n0);
+
+
+        // Insert the data into orders  from Cart
+        System.out.println("Executing Query to get all orders in cart");
+        List<Customer_Cart> customer_cart = jdbcTemplate.query("select * from cart where customer_id =?",
+                new Object[]{customer_id}, (resultSet, i) -> {
+                    return toCustomer_Cart_Ordered(resultSet,customer_order_n0);
+                });
+//    System.out.println("returning NULL");
+        // update the order number
+        System.out.println(customer_cart.size());
+        System.out.println(customer_cart.get(0));
+        int n =customer_cart.size();
+
+        for(int i=0;i<n;i++)
+        {
+
+            //
+            int seller_id = jdbcTemplate.queryForObject("SELECT seller_id FROM seller WHERE seller_username=?",new Object[] { customer_cart.get(i).getSeller_username() },Integer.class);
+            System.out.println(seller_id);
+            System.out.println(customer_id);
+
+            int product_id = customer_cart.get(i).getProduct_id();
+
+            int quantity = customer_cart.get(i).getQuantity();
+
+            int unit_price = customer_cart.get(i).getProduct_unit_price();
+//            String sql_query ="insert into order(seller_id) VALUES(?)";
+//            jdbcTemplate.update(sql_query,seller_id);
+            jdbcTemplate.update("INSERT INTO orders(seller_id,customer_id,product_id,quantity,customer_order_no,product_unit_price) VALUES(?,?,?,?,?,?)", seller_id,customer_id,product_id,quantity,customer_order_n0,unit_price );
+
+        }
+        jdbcTemplate.update("UPDATE customer SET customer_order_no =customer_order_no + 1 WHERE customer_id =? ",customer_id);
+
+        jdbcTemplate.update("delete FROM cart WHERE customer_id=?", customer_id );
+
+
+        return null;
+    }
     private CustomerDetails toCustomer(ResultSet resultSet) throws SQLException {
         CustomerDetails customerDetails = new CustomerDetails();
         System.out.println("Creating a new object");
@@ -270,6 +319,38 @@ public class CustomerDataAccessService implements CustomerDao {
         customer_orders.setProduct_unit_price(product_unit_price);
 
         return customer_orders;
+    }
+
+    private Customer_Cart toCustomer_Cart_Ordered(ResultSet resultSet, int customer_order_no)throws SQLException{
+        Customer_Cart customer_cart = new Customer_Cart();
+        int customer_id = resultSet.getInt("customer_id");
+        String customer_username = jdbcTemplate.queryForObject("SELECT customer_username FROM customer WHERE customer_id=?",new Object[] { customer_id },String.class);;
+        customer_cart.setCustomer_username(customer_username);
+        int seller_id =  resultSet.getInt("seller_id");
+        String seller_username = jdbcTemplate.queryForObject("SELECT seller_username FROM seller WHERE seller_id=?",new Object[] { seller_id },String.class);
+        customer_cart.setSeller_username(seller_username);
+
+        customer_cart.setQuantity(resultSet.getInt("quantity"));
+        int quantity = resultSet.getInt("quantity");
+        customer_cart.setProduct_id(resultSet.getInt("product_id"));
+        int product_id = resultSet.getInt("product_id");
+        customer_cart.setProduct_unit_price(resultSet.getInt("product_unit_price"));
+        int product_unit_price = resultSet.getInt("product_unit_price");
+        System.out.println(seller_id);
+        System.out.println(customer_id);
+
+        System.out.println(quantity);
+
+        System.out.println(product_id);
+        System.out.println(product_unit_price);
+        System.out.println(customer_order_no);
+
+
+
+        System.out.println("reached");
+
+
+        return customer_cart;
     }
 
 }

@@ -60,6 +60,10 @@ public class CustomerService {
         return customerDao.allOrders(customer_username);
     }
 
+    public  String ordered_successfully(String customer_username)
+    {
+        return customerDao.ordered_executed_successfully(customer_username);
+    }
     //list of all customer_username
     public List<Customer_Username> allCustomerUsername() {
         return customerDao.selectAllCustomer();
